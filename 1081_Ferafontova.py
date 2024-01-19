@@ -5,16 +5,17 @@ import matplotlib.pyplot as plt
 x = np.arange(-3, 3, 0.1) # диапазон x
 y = np.arange(-3, 3, 0.1) # диапазон y
 
-X, Y = np.meshgrid(x, y)
-Z = X**2 - Y**2 + Y
+X, Y = np.meshgrid(x, y) # координатные оси
+Z = X**2 - Y**2 + Y # исходные данные
 
 r = np.random.normal(0, 2, size=Z.shape) # белый шум
-F = Z+r
+F = Z + r # данные + шум
+# f для того, чтобы в один график добавить и исходные, и с шумом данные
 
-A = np.ones((len(x) * len(y), 3))
-A[:, 1] = X.flatten()
-A[:, 2] = Y.flatten()
-result = np.linalg.lstsq(A, F.flatten())
+A = np.ones((len(x) * len(y), 3)) # массив
+A[:, 1] = X.flatten() # сглаживание?
+A[:, 2] = Y.flatten() 
+result = np.linalg.lstsq(A, F.flatten()) # массив результатов
 
 ZA = np.dot (A, result[0]).reshape(F.shape) # аппроксимирующая поверхность
 
@@ -22,17 +23,17 @@ ZA = np.dot (A, result[0]).reshape(F.shape) # аппроксимирующая �
 
 # region все графики на одной картинке
 
-fig = plt.figure ()
-ax = fig.add_subplot (111, projection='3d')
+fig = plt.figure () # поле для графика
+ax = fig.add_subplot (111, projection='3d') 
 ax.plot_surface (X, Y, Z, cmap = 'inferno', alpha = 0.5, label ='Исходные данные') # исходный график
 ax.plot_surface (X, Y, F, cmap = 'viridis', alpha = 0.5, label = 'Исходные данные + ШУМ') # график с шумом
 ax.plot_surface (X, Y, ZA, color = 'blue', alpha = 0.5, label = 'Аппроксимация') # график апроксимации
-ax.set_xlabel ('x')
+ax.set_xlabel ('x') # подписать оси
 ax.set_ylabel ('y')
 ax.set_zlabel ('z')
-ax.legend ()
-plt.savefig ('Все_данные.png')
-plt.show ()
+ax.legend () # добавить легенду 
+plt.savefig ('Все_данные.png') # сохранение картинки
+plt.show () # вывод на экран
 #endregion
 
 # region график шум + апроксимация 
