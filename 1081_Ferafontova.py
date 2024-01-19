@@ -14,8 +14,9 @@ F = Z + r # данные + шум
 
 A = np.ones((len(x) * len(y), 4)) # массив
 A[:, 1] = X.flatten()**2 # сглаживание?
-A[:, 2] = Y.flatten() 
 A[:, 3] = Y.flatten()**2
+A[:, 2] = Y.flatten() 
+
 result = np.linalg.lstsq(A, F.flatten()) # массив результатов
 
 ZA = np.dot (A, result[0]).reshape(F.shape) # аппроксимирующая поверхность
