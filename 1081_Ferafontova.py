@@ -6,15 +6,16 @@ x = np.arange(-3, 3, 0.1) # диапазон x
 y = np.arange(-3, 3, 0.1) # диапазон y
 
 X, Y = np.meshgrid(x, y) # координатные оси
-Z = X**2 - Y**2 + Y # исходные данные
+Z = X**2 - Y**2 + 2*Y # исходные данные
 
 r = np.random.normal(0, 2, size=Z.shape) # белый шум
 F = Z + r # данные + шум
 # f для того, чтобы в один график добавить и исходные, и с шумом данные
 
-A = np.ones((len(x) * len(y), 3)) # массив
-A[:, 1] = X.flatten() # сглаживание?
+A = np.ones((len(x) * len(y), 4)) # массив
+A[:, 1] = X.flatten()**2 # сглаживание?
 A[:, 2] = Y.flatten() 
+A[:, 3] = Y.flatten()**2
 result = np.linalg.lstsq(A, F.flatten()) # массив результатов
 
 ZA = np.dot (A, result[0]).reshape(F.shape) # аппроксимирующая поверхность
